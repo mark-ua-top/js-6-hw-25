@@ -2,12 +2,10 @@ import axios from 'axios';
 
 const BASE_URL = 'https://api.themoviedb.org/3';
 
-const token = process.env.REACT_APP_TMDB_TOKEN;
-
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
     headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMmJkYWRiZWQ1YzJiYjkwODZiYjRmNzQ3NWQ5YmZiZiIsIm5iZiI6MTc4MjYyODQ5Mi42NjMsInN1YiI6IjZhNDBjMDhjYzA2MmZkMTZjMWViODJmMiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.6BYZgl4oqmYYMgLohrA8Tl34WCVP_JOHiEEvplZ4pk8`,
     },
     params: {
         language: 'uk-UA',
@@ -38,6 +36,13 @@ export const fetchMovieCredits = async movieId => {
 
 export const fetchMovieReviews = async movieId => {
     const { data } = await axiosInstance.get(`/movie/${movieId}/reviews`);
+    return data.results;
+};
+
+export const fetchMovieVideos = async movieId => {
+    const { data } = await axiosInstance.get(`/movie/${movieId}/videos`, {
+        params: { language: 'en-US' },
+    });
     return data.results;
 };
 

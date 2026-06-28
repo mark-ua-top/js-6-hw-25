@@ -1,0 +1,89 @@
+.wrapper {
+    margin-top: 8px;
+}
+
+.list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.previewBtn {
+    position: relative;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    display: block;
+    width: 100%;
+    background: none;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.previewBtn:hover .thumbnail {
+    transform: scale(1.05);
+}
+
+.playIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 32px;
+    color: #ffffff;
+    background-color: rgba(233, 69, 96, 0.85);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.previewBtn:hover .playIcon {
+    background-color: #e94560;
+}
+
+.videoName {
+    font-size: 14px;
+    color: #d6d6d6;
+    margin: 0;
+}
+
+.playerWrapper {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+}
+
+.player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.empty {
+    color: #a0a0b0;
+    font-size: 16px;
+    padding: 16px 0;
+}

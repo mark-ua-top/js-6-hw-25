@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { fetchMovieDetails, IMAGE_BASE_URL } from '../../services/api';
 import Loader from '../../components/Loader/Loader';
+import MovieTrailer from '../../components/MovieTrailer/MovieTrailer';
 import styles from './MovieDetails.module.css';
 
 const PLACEHOLDER_IMAGE =
@@ -21,6 +22,7 @@ const MovieDetails = () => {
     const [movie, setMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [showTrailer, setShowTrailer] = useState(false);
 
     useEffect(() => {
         const getMovie = async () => {
@@ -42,19 +44,12 @@ const MovieDetails = () => {
     const getLinkClass = ({ isActive }) =>
         isActive ? `${styles.subLink} ${styles.active}` : styles.subLink;
 
-    if (isLoading) {
-        return <Loader />;
-    }
-
-    if (error) {
-        return <p className={styles.message}>{error}</p>;
-    }
-
-    if (!movie) {
-        return null;
-    }
+    if (isLoading) return <Loader />;
+    if (error) return <p className={styles.message}>{error}</p>;
+    if (!movie) return null;
 
     const {
+        id,
         title,
         overview,
         genres,
@@ -68,7 +63,9 @@ const MovieDetails = () => {
         : PLACEHOLDER_IMAGE;
 
     const userScore =
-        typeof vote_average === 'number' ? Math.round(vote_average * 10) : 'N/A';
+        typeof vote_average === 'number'
+            ? Math.round(vote_average * 10)
+            : 'N/A';
 
     const year = release_date ? release_date.slice(0, 4) : 'N/A';
 
@@ -91,14 +88,33 @@ const MovieDetails = () => {
                     </p>
 
                     <h2 className={styles.subtitle}>Overview</h2>
-                    <p className={styles.text}>{overview || 'Опис відсутній.'}</p>
+                    <p className={styles.text}>
+                        {overview || 'Опис відсутній.'}
+                    </p>
 
                     <h2 className={styles.subtitle}>Genres</h2>
                     <p className={styles.text}>
-                        {genres?.map(genre => genre.name).join(', ') || 'Немає жанрів'}
+                        {genres?.map(genre => genre.name).join(', ') ||
+                            'Немає жанрів'}
                     </p>
+
+                    <button
+                        className={styles.trailerBtn}
+                        onClick={() => setShowTrailer(prev => !prev)}
+                    >
+                        {showTrailer
+                            ? '🎬 Сховати трейлери'
+                            : '🎬 Дивитись трейлери'}
+                    </button>
                 </div>
             </div>
+
+            {showTrailer && (
+                <div className={styles.trailerSection}>
+                    <h2 className={styles.trailerTitle}>Трейлери</h2>
+                    <MovieTrailer movieId={id} />
+                </div>
+            )}
 
             <div className={styles.extra}>
                 <h3 className={styles.extraTitle}>Additional information</h3>
